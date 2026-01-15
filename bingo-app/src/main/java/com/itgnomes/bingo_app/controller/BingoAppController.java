@@ -28,9 +28,8 @@ public class BingoAppController {
 
     @PatchMapping("/cards/{id}/cell/{location}")
     @ResponseBody
-    public String completeTask(@PathVariable Long id, @PathVariable int location) {
-        Card updatedCard = bingoService.markTile(id, location);
-        return "Marked tile at location " + location + " on card ID " + id + " as completed.";
+    public Card completeTask(@PathVariable Long id, @PathVariable int location) {
+        return bingoService.markTile(id, location);
     }
 
     @PostMapping("/cards")
