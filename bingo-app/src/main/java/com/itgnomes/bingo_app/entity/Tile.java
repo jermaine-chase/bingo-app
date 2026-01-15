@@ -1,29 +1,36 @@
 package com.itgnomes.bingo_app.entity;
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Tile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private final String label;
+    private String label;
     private boolean marked;
 
-    @JsonCreator
-    public Tile(@JsonProperty("label") String value) {
+    public Tile(String value) {
         this.label = value;
         this.marked = false;
     }
+
+    public Tile() {}
 
     public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getLabel() {
         return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public boolean isMarked() {

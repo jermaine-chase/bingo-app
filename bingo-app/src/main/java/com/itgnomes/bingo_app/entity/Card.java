@@ -22,6 +22,10 @@ public class Card {
         this.tiles = new ArrayList<>();
     }
 
+    public Card() {
+        this.tiles = new ArrayList<>();
+    }
+
     public Long getId() {
         return this.id;
     }
