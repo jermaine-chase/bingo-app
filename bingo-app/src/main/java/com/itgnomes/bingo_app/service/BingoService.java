@@ -25,7 +25,7 @@ public class BingoService {
             throw new IllegalArgumentException("Invalid tile location: " + location);
         }
 
-        card.getTiles().get(location).setMarked(true);
+        card.getTiles().get(location - 1).setMarked(true);
 
         // Do not call save() on a managed entity inside the same transaction.
         // Transactional commit will flush changes and handle versioning.
