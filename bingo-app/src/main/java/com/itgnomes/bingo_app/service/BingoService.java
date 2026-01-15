@@ -39,4 +39,8 @@ public class BingoService {
     public List<Card> getAllCards() {
         return cardRepository.findAll();
     }
+
+    public void createCard(Card card) {
+        cardRepository.save(card);
+    }
 }

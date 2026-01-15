@@ -16,22 +16,27 @@ public class BingoAppController {
 
     @GetMapping("/cards")
     @ResponseBody
-    public List<String> getBingoCards() {
-        List<Card> cards = bingoService.getAllCards();
-        return cards.stream().map(Card::getName).toList();
+    public List<Card> getBingoCards() {
+        return bingoService.getAllCards();
     }
 
     @GetMapping("/card/{id}")
     @ResponseBody
     public Card getBingoCardById(@PathVariable Long id) {
-        // Placeholder for actual bingo card retrieval by ID logic
-        return new Card(id,"");
+        return bingoService.getCardById(id).orElse(null);
     }
 
     @PatchMapping("/cards/{id}/cell/{location}")
     @ResponseBody
     public String completeTask(@PathVariable Long id, @PathVariable int location) {
-        // Placeholder for actual task completion logic
-        return "Marked task at location " + location + " as complete for Bingo Card ID: " + id;
+        Card updatedCard = bingoService.markTile(id, location);
+        return "Marked tile at location " + location + " on card ID " + id + " as completed.";
+    }
+
+    @PostMapping("/cards")
+    @ResponseBody
+    public String createBingoCard(@RequestBody Card card) {
+        bingoService.createCard(card);
+        return "Created Bingo Card with ID: " + card.getId();
     }
 }

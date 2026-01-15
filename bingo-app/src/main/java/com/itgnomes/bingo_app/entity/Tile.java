@@ -8,16 +8,16 @@ public class Tile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String value;
+    private final String label;
     private boolean marked;
 
     public Tile(String value) {
-        this.value = value;
+        this.label = value;
         this.marked = false;
     }
 
-    public String getValue() {
-        return value;
+    public String getLabel() {
+        return label;
     }
 
     public boolean isMarked() {
