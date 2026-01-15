@@ -1,9 +1,10 @@
 package com.itgnomes.bingo_app.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name = "tiles")
 public class Tile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,9 +12,14 @@ public class Tile {
     private final String label;
     private boolean marked;
 
-    public Tile(String value) {
+    @JsonCreator
+    public Tile(@JsonProperty("label") String value) {
         this.label = value;
         this.marked = false;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getLabel() {
