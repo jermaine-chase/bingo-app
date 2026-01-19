@@ -4,6 +4,7 @@ package com.itgnomes.bingo_app.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "bingoUsers")
 public class User {
 
     @Id

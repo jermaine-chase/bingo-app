@@ -1,5 +1,10 @@
-<nav class="navbar">
-  <div class="navbar-container">
-    <a *ngFor="let tab of tabList" class="navbar-link" [routerLink]="tab.route">{{ tab.label }}</a>
+<header>
+  <div class="container">
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a *ngFor="let tab of tabList" class="navbar-link" [routerLink]="tab.route">{{ tab.label }}</a>
+    </div>
+  </nav>
   </div>
-</nav>
+</header>
