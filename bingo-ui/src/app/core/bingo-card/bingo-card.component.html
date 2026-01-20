@@ -1,2 +1,17 @@
-<p>bingo-card works!</p>
-id: {{ id() }}
+@if (card()) {
+  <div class="bingo-card">
+    <h2 class="card-title">{{ card()!.name }}</h2>
+    <div class="bingo-grid">
+      @for (tile of card()!.tiles; track tile.id) {
+        <div class="tile" [class.marked]="tile.marked" (click)="markTile(tile.id)">
+          <span class="tile-name" #tileText>{{ tile.label }}</span>
+          @if (isTextTruncated(tileText)) {
+            <span class="tooltip">{{ tile.label }}</span>
+          }
+        </div>
+      }
+    </div>
+  </div>
+} @else {
+  <p>Loading card...</p>
+}

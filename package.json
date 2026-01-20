@@ -1,0 +1,13 @@
+{
+  "name": "bingo-app",
+  "version": "1.0.0",
+  "scripts": {
+    "install": "cd bingo-app && mvn clean install && cd ../bingo-ui && npm install",
+    "start-all": "npm run start-ui & npm run start-app",
+    "start-all2": "concurrently \"npm run start-ui\" \"npm run start-app\"",
+    "start-ui": "cd bingo-ui && npm run start",
+    "build-ui": "cd bingo-ui && npm run build",
+    "start-app": "cd bingo-app && mvn clean spring-boot:run"
+  },
+  "private": true
+}

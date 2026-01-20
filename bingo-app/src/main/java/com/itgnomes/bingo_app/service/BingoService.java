@@ -2,7 +2,8 @@ package com.itgnomes.bingo_app.service;
 
 import com.itgnomes.bingo_app.entity.Card;
 import com.itgnomes.bingo_app.entity.Tile;
-import com.itgnomes.bingo_app.repository.BingoRepository;
+import com.itgnomes.bingo_app.repository.BingoCardRepository;
+import com.itgnomes.bingo_app.repository.BingoTileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,22 +15,20 @@ import java.util.Optional;
 public class BingoService {
 
     @Autowired
-    private BingoRepository cardRepository;
+    private BingoCardRepository cardRepository;
+
+    @Autowired
+    private BingoTileRepository tileRepository;
 
     @Transactional
-    public Card markTile(Long cardId, int location) {
-        Card card = cardRepository.findById(cardId)
-                .orElseThrow(() -> new RuntimeException("Card not found"));
+    public Card markTile(Long cardId, Long location) {
+        Tile t = tileRepository.findById(location)
+                .orElseThrow(() -> new RuntimeException("Tile not found with id: " + location));
+        t.setMarked(true);
+        tileRepository.save(t);
+        return cardRepository.findById(cardId)
+                .orElseThrow(() -> new RuntimeException("Card not found with id: " + cardId));
 
-        if (location < 0 || location >= card.getTiles().size()) {
-            throw new IllegalArgumentException("Invalid tile location: " + location);
-        }
-
-        card.getTiles().get(location - 1).setMarked(true);
-
-        // Do not call save() on a managed entity inside the same transaction.
-        // Transactional commit will flush changes and handle versioning.
-        return card;
     }
 
     public Optional<Card> getCardById(Long cardId) {

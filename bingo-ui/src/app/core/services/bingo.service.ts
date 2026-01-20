@@ -6,7 +6,7 @@ import {Card} from '../../models/card';
 })
 
 export class BingoService {
-  url = '/api/bingo';
+  url = 'http://localhost:8080/api';
 
   cards: WritableSignal<Card[]> = signal([]);
 
@@ -18,12 +18,12 @@ export class BingoService {
   async getCard(id: number | string) {
     let card = this.cards().find(card => card.id === id);
     if (!card) {
-      card = await fetch(`${this.url}/card/${id}`)
-        .then(response => {
-          console.log('Fetching card from API with id:', id);
-          console.log(response);
-          return response.json()
-        });
+      console.log('Fetching card from API with id:', id);
+      const cardResp = await fetch(`${this.url}/card/${id}`);
+      card = await cardResp.json();
+      if (card) {
+        console.log('Card fetched:', card);
+      }
     }
     return card
   }

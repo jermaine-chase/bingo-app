@@ -1,5 +1,6 @@
-import {Component, input, OnChanges, OnInit} from '@angular/core';
+import {Component, input, OnChanges, OnInit, signal} from '@angular/core';
 import {BingoService} from '../services/bingo.service';
+import {Card} from '../../models/card';
 
 @Component({
   selector: 'app-bingo-card',
@@ -9,14 +10,15 @@ import {BingoService} from '../services/bingo.service';
 })
 export class BingoCardComponent implements OnInit, OnChanges {
     id = input<string>();
+    card = signal({} as Card | undefined);
     constructor(private bingoService: BingoService) {
     }
 
-    ngOnInit() {
+    async ngOnInit() {
       if (this.id()) {
         console.log('Id is', this.id());
-        const c = this.bingoService.getCard(this.id()!);
-        console.log(c);
+        const c = await this.bingoService.getCard(this.id()!);
+        this.card.set(c);
       } else {
         console.log('Id is undefined');
       }
@@ -29,5 +31,25 @@ export class BingoCardComponent implements OnInit, OnChanges {
           console.log('Fetched card:', card);
         });
       }
+    }
+
+    markTile(index: number) {
+      if (!this.card()!.id) {
+        console.error('Card ID is undefined');
+        return;
+      }
+      if (!index) {
+        console.error('Index is undefined');
+        return;
+      }
+      //console.log(`Marking tile at index ${index} for card ID ${this.card()!.id}`);
+      this.bingoService.markNumber(this.card()!.id, index).then(updatedCard => {
+        console.log('Tile marked, updated card:', updatedCard);
+        this.card.set(updatedCard);
+      });
+    }
+
+    isTextTruncated(element: HTMLElement): boolean {
+      return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
     }
 }
